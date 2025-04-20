@@ -19,7 +19,7 @@ Its core purpose is to ...
 
 Along the way, it provides some conveniences to help automation tasks, and offer tools to help accelerate you writing your own stuff (assuming you do PowerShell).
 
-> Don't worry: You do not need to know PowerShell to use this
+> Don't worry: You do not need to know programming in general or PowerShell in particular to use this
 
 ## Setting up the tools
 
@@ -57,7 +57,7 @@ What we need to do is create a build script and place it wherever seems convenie
 ```text
 ├───Mod1
 ├───Mod2
-└───Mod3
+├───Mod3
 └───build.ps1
 ```
 
@@ -137,7 +137,7 @@ Whenever we run `Build-PdxMod` ...
 
 So, if you want to add your own automation, you have two options:
 
-### Create mod-specific `build.ps1`
+### 1.: Create mod-specific `build.ps1`
 
 The simpler method, and also the best way to switch to another language.
 Anything you write in `build.ps1` is executed, so you can freely add your own statements, only your coding skills are the limit.
@@ -159,7 +159,7 @@ Then place a `build.ps1` in the same folder [with this content](docs/build-with-
 
 With that, `Build-PdxMod` calls `build.ps1`, which will start Python to run `build.py`.
 
-### Add a Build Extension
+### 2.: Add a Build Extension
 
 Not for the faint of heart, requires PowerShell knowledge, but quite Powerful.
 To get started with that, run this:
