@@ -1,0 +1,15 @@
+﻿name: "Build Wrapper Module"
+on:
+  schedule:
+  - cron: "0 0 * * *"
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Build
+      run: .\build\build.ps1 -ApiKey $env:APIKEY
+      shell: pwsh
+      env:
+        APIKEY: ${{ secrets.ApiKey }}
