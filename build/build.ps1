@@ -113,8 +113,19 @@ function Publish-WrapperModule {
 		@{ ModuleName = $dependency.Name; ModuleVersion = $dependency.Version }
 	}
 	Update-PSFModuleManifest -Path "$tempDir\$Name.psd1" -RequiredModules $dependencyData
+	if ($LastVersion) {
+		$manifestData = Import-PSFPowerShellDataFile -Path "$tempDir\$Name.psd1"
+		$mVersion = $manifestData.ModuleVersion -as [version]
+		$major = $mVersion.Major, $LastVersion.Version.Major | Sort-Object -Descending | Select-Object -First 1
+		$minor = $mVersion.Minor, $LastVersion.Version.Minor | Sort-Object -Descending | Select-Object -First 1
+		$build = $mVersion.Build, $LastVersion.Version.Build | Sort-Object -Descending | Select-Object -First 1
+
+		$newVersion = [version]::new($major, $minor, ($build + 1))
+		Update-PSFModuleManifest -Path "$tempDir\$Name.psd1" -ModuleVersion $newVersion
+	}
+
 	"" | Set-Content -Path "$tempDir\$Name.psm1"
-	Publish-PSFModule -Path $tempDir -Repository $Repository -SkipDependenciesCheck
+	Publish-PSFModule -Path $tempDir -Repository $Repository -ApiKey $ApiKey -SkipDependenciesCheck
 
 	Get-PSFTempItem | Remove-PSFTempItem
 }
