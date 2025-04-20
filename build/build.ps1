@@ -114,7 +114,7 @@ function Publish-WrapperModule {
 	}
 	Update-PSFModuleManifest -Path "$tempDir\$Name.psd1" -RequiredModules $dependencyData
 	"" | Set-Content -Path "$tempDir\$Name.psm1"
-	Publish-PSFModule -Path $tempDir -Repository $Repository
+	Publish-PSFModule -Path $tempDir -Repository $Repository -SkipDependenciesCheck
 
 	Get-PSFTempItem | Remove-PSFTempItem
 }
