@@ -52,7 +52,8 @@ function Find-ReleaseModule {
 		$Name
 	)
 
-	Find-PSFModule -Repository $Repository -Name $Name -ErrorAction Ignore 2>$null | Sort-Object Type -Descending | Select-Object -First 1
+	try { Find-PSFModule -Repository $Repository -Name $Name -ErrorAction Ignore 2>$null | Sort-Object Type -Descending | Select-Object -First 1 }
+	catch { }
 }
 
 function Test-VersionUpdate {
@@ -60,6 +61,7 @@ function Test-VersionUpdate {
 	param (
 		$Available,
 
+		[AllowNull()]
 		$Current
 	)
 
