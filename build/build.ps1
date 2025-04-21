@@ -4,7 +4,10 @@ param (
 	
 	$WorkingDirectory,
 	
-	$Repository = 'PSGallery'
+	$Repository = 'PSGallery',
+
+	[switch]
+	$NoInstall
 )
 
 $ErrorActionPreference = 'Stop'
@@ -24,7 +27,9 @@ if (-not $WorkingDirectory) {
 if (-not $WorkingDirectory) { $WorkingDirectory = Split-Path $PSScriptRoot }
 #endregion Handle Working Directory Defaults
 
-Install-Module PSFramework.NuGet -Force -Repository $Repository
+if (-not $NoInstall) {
+	Install-Module PSFramework.NuGet -Force -Repository $Repository
+}
 
 #region Functions
 function Find-ParadoxModule {
@@ -81,7 +86,7 @@ function Test-VersionUpdate {
 
 	foreach ($module in $Available) {
 		if (-not $currentHash[$module.Name]) { return $true }
-		if ($Available.Version -gt $currentHash[$module.Name]) { return $true }
+		if ($module.Version -gt $currentHash[$module.Name]) { return $true }
 	}
 
 	$false
